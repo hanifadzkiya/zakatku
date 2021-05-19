@@ -2,36 +2,19 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:zakatku/model/calculator/zakat_calculator.dart';
+import 'package:zakatku/model/zakatitem/zakat_perdagangan_item.dart';
 
 import '../../constants.dart';
 import '../../utils.dart';
 import '../global_setting_controller.dart';
 
 class ZakatPerdaganganCaclulator extends ZakatCalculator {
-  ZakatPerdaganganCaclulator() : super("Rp") {
-    this.nilaiBarangDagangan = 0;
-    this.uang = 0;
-    this.piutang = 0;
-    this.hutang = 0;
-    GlobalSettingController controller = Get.find();
-    this.nishabType = nishabTypeOptions[controller.nishabTypeIdx];
-    if (this.nishabType.type == "Emas") {
-      this.nishabPricePerGram = controller.goldPrice;
-    } else {
-      this.nishabPricePerGram = controller.silverPrice;
-    }
-  }
-
-  late double nilaiBarangDagangan;
-  late double uang;
-  late double piutang;
-  late double hutang;
-  late NishabType nishabType;
-  late double nishabPricePerGram;
+  ZakatPerdaganganCaclulator(ZakatPerdaganganItem item) : super(item);
 
   @override
   String calculate() {
-    double total = nilaiBarangDagangan + uang + piutang - hutang;
+    double total =
+        item.nilaiBarangDagangan + item.uang + item.piutang - item.hutang;
     if (total < getNishab()) {
       return "-";
     }
@@ -45,17 +28,17 @@ class ZakatPerdaganganCaclulator extends ZakatCalculator {
     }
     log("UPdate $value ${field}");
     switch (field) {
-      case ("nilaiBarangDagangan") :
-        this.nilaiBarangDagangan = double.parse(value);
+      case ("nilaiBarangDagangan"):
+        this.item.nilaiBarangDagangan = double.parse(value);
         break;
-      case ("uang") :
-        this.uang = double.parse(value);
+      case ("uang"):
+        this.item.uang = double.parse(value);
         break;
-      case ("piutang") :
-        this.piutang = double.parse(value);
+      case ("piutang"):
+        this.item.piutang = double.parse(value);
         break;
-      case ("hutang") :
-        this.hutang = double.parse(value);
+      case ("hutang"):
+        this.item.hutang = double.parse(value);
         break;
       default:
         break;
@@ -64,12 +47,11 @@ class ZakatPerdaganganCaclulator extends ZakatCalculator {
   }
 
   double getNishab() {
-    return this.nishabPricePerGram * this.nishabType.val;
+    return this.item.nishabPricePerGram * this.item.nishabType.val;
   }
 
   @override
   String printNishab() {
     return "Rp ${getNishab().toStringAsFixed(2)}";
   }
-
 }

@@ -1,19 +1,19 @@
 import 'dart:developer';
 
+import 'package:zakatku/model/zakatitem/zakat_fitrah_item.dart';
+
 import '../../utils.dart';
 import 'zakat_calculator.dart';
 
 class ZakatFitrahCalculator extends ZakatCalculator {
-  ZakatFitrahCalculator() : this.people = 0, super("Kg");
-
-  int people;
+  ZakatFitrahCalculator(item) : super(item);
 
   @override
   String calculate() {
-    if (people == 0) {
+    if (item.people == 0) {
       return "-";
     }
-    return "${(people * 3).toStringAsFixed(2)} Kg";
+    return "${(item.people * 3).toStringAsFixed(2)} Kg";
   }
 
   @override
@@ -23,7 +23,7 @@ class ZakatFitrahCalculator extends ZakatCalculator {
     }
     switch (field) {
       case ("jumlahJiwa") :
-        this.people = int.parse(value);
+        this.item.people  = int.parse(value);
         break;
     }
     return this;

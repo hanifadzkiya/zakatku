@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:zakatku/constants.dart';
 import 'package:zakatku/model/calculator/zakat_mal_calculator.dart';
 import 'package:zakatku/model/zakat_controller.dart';
+import 'package:zakatku/model/zakatitem/zakat_mal_item.dart';
 import 'package:zakatku/utils.dart';
 import 'package:zakatku/widgets/common/title_text_field.dart';
 
@@ -14,12 +15,12 @@ class ZakatMalForm extends StatelessWidget {
   const ZakatMalForm({
     Key? key,
     required GlobalKey<FormState> formKey,
-    required this.controller,
+    required this.onChange,
   })  : _formKey = formKey,
         super(key: key);
 
   final GlobalKey<FormState> _formKey;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class ZakatMalForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          MalItem(controller: controller),
+          MalItem(onChange: onChange),
         ],
       ),
     );
@@ -37,18 +38,18 @@ class ZakatMalForm extends StatelessWidget {
 class MalItem extends StatelessWidget {
   const MalItem({
     Key? key,
-    required this.controller,
+    required this.onChange,
   }) : super(key: key);
 
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ZakatController>(init: controller, builder: (controller) {
+    return GetBuilder<ZakatController>(init: Get.find<ZakatController>(), builder: (controller) {
       ZakatMalCalculator zakatMalCalculator =
           controller.calculator.value as ZakatMalCalculator;
       List<Widget> fields =
-          zakatMalCalculator.zakatMalItems.asMap().entries.map((entry) {
+          zakatMalCalculator.item.zakatMalItems.asMap().entries.map((entry) {
         return getFormField(entry.value, entry.key);
       }).toList();
       return Column(
@@ -57,7 +58,7 @@ class MalItem extends StatelessWidget {
           SizedBox(height: kDefaultPadding),
           InkWell(
             onTap: () {
-              addItem(context, controller);
+              addItem(context, onChange);
             },
             child: Icon(
               Icons.add,
@@ -69,13 +70,13 @@ class MalItem extends StatelessWidget {
     });
   }
 
-  Widget getFormField(ZakatMalItem item, int idx) {
+  Widget getFormField(ZakatMalItemType item, int idx) {
     Widget result;
     log(idx.toString());
     switch (item.type) {
       case ("Emas"):
         result = MalItemWidget(
-            controller: controller,
+            onChange: onChange,
             type: item.type,
             unit: "Karat",
             initialUnitValue: 24,
@@ -84,7 +85,7 @@ class MalItem extends StatelessWidget {
         break;
       case ("Perak"):
         result = MalItemWidget(
-            controller: controller,
+            onChange: onChange,
             type: item.type,
             unit: "%",
             initialUnitValue: 100,
@@ -93,17 +94,17 @@ class MalItem extends StatelessWidget {
         break;
       case ("Uang"):
         result = MalItemWidget(
-            controller: controller, type: item.type, idx: idx, key: ValueKey(idx));
+            onChange: onChange, type: item.type, idx: idx, key: ValueKey(idx));
         break;
       default:
         result = MalItemWidget(
-            controller: controller, type: item.type, idx: idx, key: ValueKey(idx));
+            onChange: onChange, type: item.type, idx: idx, key: ValueKey(idx));
         break;
     }
     return result;
   }
 
-  Future<void> addItem(BuildContext context, ZakatController controller) async {
+  Future<void> addItem(BuildContext context, void Function(String, String) onChange) async {
     String? type = await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -128,7 +129,7 @@ class MalItem extends StatelessWidget {
     );
     switch (type) {
       default:
-        controller.changeValue(type!, "add");
+        onChange(type!, "add");
       // dialog dismissed
         break;
     }

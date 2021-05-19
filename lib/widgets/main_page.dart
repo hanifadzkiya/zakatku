@@ -7,6 +7,7 @@ import 'package:zakatku/model/dashboard_controller.dart';
 import 'package:zakatku/widgets/common/app_title.dart';
 import 'package:zakatku/widgets/common/bottom_nav_bar.dart';
 import 'package:zakatku/widgets/home/home_page.dart';
+import 'package:zakatku/widgets/remainder/remainder_page.dart';
 import 'package:zakatku/widgets/setting/setting_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -26,6 +27,7 @@ class MainPage extends StatelessWidget {
               index: controller.tabIndex,
               children: [
                 Home(),
+                RemainderPage(),
                 SettingPage()
               ],
             ),

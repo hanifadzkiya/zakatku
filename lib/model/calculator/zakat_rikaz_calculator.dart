@@ -1,16 +1,16 @@
 import 'dart:developer';
 
+import 'package:zakatku/model/zakatitem/zakat_rikaz_item.dart';
+
 import '../../utils.dart';
 import 'zakat_calculator.dart';
 
 class ZakatRikazCalculator extends ZakatCalculator {
-  ZakatRikazCalculator() : this.nettValue = 0, super("Rp");
-
-  int nettValue;
+  ZakatRikazCalculator(ZakatRikazItem item) : super(item);
 
   @override
   String calculate() {
-    return "Rp ${doubleToCurrency(nettValue * 0.2)}";
+    return "Rp ${doubleToCurrency(item.nettValue * 0.2)}";
   }
 
   @override
@@ -20,7 +20,7 @@ class ZakatRikazCalculator extends ZakatCalculator {
     }
     switch (field) {
       case ("nettValue") :
-        this.nettValue = int.parse(value);
+        this.item.nettValue = int.parse(value);
         break;
     }
     return this;

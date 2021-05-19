@@ -24,8 +24,12 @@ class BottomNavBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          label: 'About Me',
+          icon: Icon(Icons.calendar_today),
+          label: 'Pengingat',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Pengaturan',
         )
       ],
 

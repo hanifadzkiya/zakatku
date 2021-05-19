@@ -11,11 +11,11 @@ class ZakatPerdaganganForm extends StatelessWidget {
   const ZakatPerdaganganForm({
     Key? key,
     required GlobalKey<FormState> formKey,
-    required this.controller,
+    required this.onChange,
   }) : _formKey = formKey, super(key: key);
 
   final GlobalKey<FormState> _formKey;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ZakatPerdaganganForm extends StatelessWidget {
         children: [
           TitleTextField(
               title: "Nilai Barang",
-            onChanged: (value) { controller.changeValue(value, "nilaiBarangDagangan"); },
+            onChanged: (value) { onChange(value, "nilaiBarangDagangan"); },
               validator: (value) {
                 if (isNumeric(value)) {
                   return null;
@@ -37,7 +37,7 @@ class ZakatPerdaganganForm extends StatelessWidget {
           SizedBox(height: 0.5*kDefaultPadding),
           TitleTextField(
               title: "Jumlah Uang Kas",
-            onChanged: (value) { controller.changeValue(value, "uang"); },
+            onChanged: (value) { onChange(value, "uang"); },
               validator: (value) {
                 if (isNumeric(value)) {
                   return null;
@@ -49,7 +49,7 @@ class ZakatPerdaganganForm extends StatelessWidget {
           SizedBox(height: 0.5*kDefaultPadding),
           TitleTextField(
               title: "Jumlah Piutang",
-            onChanged: (value) { controller.changeValue(value, "piutang"); },
+            onChanged: (value) { onChange(value, "piutang"); },
               validator: (value) {
                 if (isNumeric(value)) {
                   return null;
@@ -61,8 +61,8 @@ class ZakatPerdaganganForm extends StatelessWidget {
           SizedBox(height: 0.5*kDefaultPadding),
           TitleTextField(
               title: "Jumlah Hutang",
-              textInputFormatter: [FilteringTextInputFormatter.allow(RegExp('^(?!\.)([0-9.]+)\$'))],
-            onChanged: (value) { controller.changeValue(value, "hutang"); },
+              textInputFormatter: [FilteringTextInputFormatter.allow(RegExp('^(?!\\.)([0-9.]+)\$'))],
+            onChanged: (value) {onChange(value, "hutang"); },
               validator: (value) {
                 if (isNumeric(value)) {
                   return null;

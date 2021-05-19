@@ -38,7 +38,7 @@ class _ZakatCalculatorWidget extends State<ZakatCalculatorWidget> {
   Widget build(BuildContext context) {
     ZakatCalculator controllerValue = controller.calculator.value;
     return Column(children: [
-      getZakatCalculatorForm(widget.zakatItem.id, _formKey, controller),
+      getZakatCalculatorForm(widget.zakatItem.id, _formKey, controller.changeValue),
       TitleMenu(title: "Nishab : ${controllerValue.printNishab()}"),
       InkWell(
         onTap: submit,

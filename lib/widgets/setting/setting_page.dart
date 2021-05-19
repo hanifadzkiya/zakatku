@@ -231,7 +231,7 @@ class LatestPriceTextField extends StatelessWidget {
           ),
         ),
         Text(
-            "Terakhir diperbarui: ${new DateFormat("dd/MM/yyyy").format(lastUpdate)}")
+            "Terakhir diperbarui: ${formattedDate(lastUpdate)}")
       ],
     );
   }

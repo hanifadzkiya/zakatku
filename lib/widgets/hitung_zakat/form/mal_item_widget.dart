@@ -9,7 +9,7 @@ class MalItemWidget extends StatelessWidget {
   const MalItemWidget({
     Key? key,
     required this.type,
-    required this.controller,
+    required this.onChange,
     this.initialUnitValue = 0,
     this.unit = "",
     required this.idx
@@ -18,7 +18,7 @@ class MalItemWidget extends StatelessWidget {
   final String type;
   final int initialUnitValue;
   final String unit;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
   final int idx;
 
   @override
@@ -29,7 +29,7 @@ class MalItemWidget extends StatelessWidget {
       children: [
         TitleTextField(
           title: type,
-          onChanged: (value) { controller.changeValue(value, "${idx}-unit"); },
+          onChanged: (value) { onChange(value, "${idx}-unit"); },
           validator: (value) {
             if (isInteger(value)) {
               return null;
@@ -43,7 +43,7 @@ class MalItemWidget extends StatelessWidget {
             ? Container(
                 width: 100,
                 child: TextFormField(
-                  onChanged: (val) {controller.changeValue(val, "${idx}-kadar");},
+                  onChanged: (val) {onChange(val, "${idx}-kadar");},
                   validator: (value) {
                     if (isInteger(value)) {
                       return null;
@@ -92,7 +92,7 @@ class MalItemWidget extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            controller.changeValue("0.0", "${idx}-remove");
+            onChange("0.0", "${idx}-remove");
           },
           child: Icon(
             Icons.cancel,

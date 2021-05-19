@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zakatku/constants.dart';
 import 'package:zakatku/model/calculator/zakat_pertanian_calculator.dart';
 import 'package:zakatku/model/zakat_controller.dart';
+import 'package:zakatku/model/zakatitem/zakat_pertanian_item.dart';
 import 'package:zakatku/utils.dart';
 import 'package:zakatku/widgets/common/title_text_field.dart';
 
@@ -10,27 +11,29 @@ class ZakatPertanianForm extends StatelessWidget {
   const ZakatPertanianForm({
     Key? key,
     required GlobalKey<FormState> formKey,
-    required this.controller,
+    required this.onChange,
   })  : _formKey = formKey,
         super(key: key);
 
   final GlobalKey<FormState> _formKey;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
-    ZakatPertanianCalculator calculator =
-        controller.calculator.value as ZakatPertanianCalculator;
+
     return GetBuilder<ZakatController>(
-        init: controller,
+
+        init: Get.find<ZakatController>(),
         builder: (controller) {
+          ZakatPertanianCalculator calculator =
+            controller.calculator.value as ZakatPertanianCalculator;
           return Form(
             key: _formKey,
             child: Column(
               children: [
                 TitleTextField(
                     title: "Total Berat (Gram)",
-                    onChanged: (value) { controller.changeValue(value, "weight"); },
+                    onChanged: (value) { onChange(value, "weight"); },
                     validator: (value) {
                       if (isNumeric(value)) {
                         return null;
@@ -41,7 +44,7 @@ class ZakatPertanianForm extends StatelessWidget {
                   height: kDefaultPadding,
                 ),
             InkWell(
-              onTap: () => changeWaterSupply(context, controller),
+              onTap: () => changeWaterSupply(context, onChange),
               child:
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,7 +57,7 @@ class ZakatPertanianForm extends StatelessWidget {
                           ?.copyWith(color: kPrimaryColor),
                     ),
                     Text(
-                        waterSupplyTypes[calculator.waterSupplyIdx].description,
+                        waterSupplyTypes[calculator.item.waterSupplyIdx].description,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -69,7 +72,7 @@ class ZakatPertanianForm extends StatelessWidget {
   }
 
   Future<void> changeWaterSupply(
-      BuildContext context, ZakatController controller) async {
+      BuildContext context, void Function(String, String) onChange) async {
     String? type = await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -88,7 +91,7 @@ class ZakatPertanianForm extends StatelessWidget {
         });
     switch (type) {
       default:
-        controller.changeValue(type!, "waterSupply");
+        onChange(type!, "waterSupply");
         // dialog dismissed
         break;
     }

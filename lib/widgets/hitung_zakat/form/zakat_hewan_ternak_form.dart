@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zakatku/model/calculator/zakat_hewan_ternak_calculator.dart';
 import 'package:zakatku/model/calculator/zakat_pertanian_calculator.dart';
 import 'package:zakatku/model/zakat_controller.dart';
+import 'package:zakatku/model/zakatitem/zakat_fitrah_item.dart';
 import 'package:zakatku/widgets/common/title_text_field.dart';
 
 import '../../../constants.dart';
@@ -12,26 +13,26 @@ class ZakatHewanTernakForm extends StatelessWidget {
   const ZakatHewanTernakForm({
     Key? key,
     required GlobalKey<FormState> formKey,
-    required this.controller,
+    required this.onChange,
   })  : _formKey = formKey,
         super(key: key);
 
   final GlobalKey<FormState> _formKey;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
-    ZakatHewanTernakCalculator calculator =
-    controller.calculator.value as ZakatHewanTernakCalculator;
+
     return GetBuilder<ZakatController>(
-        init: controller,
+        init: Get.find<ZakatController>(),
         builder: (controller) {
+          ZakatHewanTernakCalculator calculator = controller.calculator.value as ZakatHewanTernakCalculator;
           return Form(
             key: _formKey,
             child: Column(
               children: [
                 InkWell(
-                    onTap: () => changeCattleType(context, controller),
+                    onTap: () => changeCattleType(context, onChange),
                     child:
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +45,7 @@ class ZakatHewanTernakForm extends StatelessWidget {
                               ?.copyWith(color: kPrimaryColor),
                         ),
                         Text(
-                          cattleTypes[calculator.cattleTypeIdx].description,
+                          cattleTypes[calculator.item.cattleTypeIdx].description,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
@@ -57,7 +58,7 @@ class ZakatHewanTernakForm extends StatelessWidget {
                 ),
                 TitleTextField(
                     title: "Total Ekor",
-                    onChanged: (value) { controller.changeValue(value, "total"); },
+                    onChanged: (value) { onChange(value, "total"); },
                     validator: (value) {
                       if (isInteger(value)) {
                         return null;
@@ -71,7 +72,7 @@ class ZakatHewanTernakForm extends StatelessWidget {
   }
 
   Future<void> changeCattleType(
-      BuildContext context, ZakatController controller) async {
+      BuildContext context, void Function(String, String) onChange) async {
     String? type = await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -90,7 +91,7 @@ class ZakatHewanTernakForm extends StatelessWidget {
         });
     switch (type) {
       default:
-        controller.changeValue(type!, "cattleType");
+        onChange(type!, "cattleType");
         // dialog dismissed
         break;
     }

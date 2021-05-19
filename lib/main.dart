@@ -1,17 +1,22 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:zakatku/constants.dart';
+import 'package:zakatku/service/NotificationService.dart';
 import 'package:zakatku/widgets/hitung_zakat/hitung_zakat.dart';
 import 'package:zakatku/widgets/home/home_page.dart';
 
 import 'routes/routes.dart';
 
 void main() async {
+  await NotificationService().init();
   await GetStorage.init();
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -9,11 +9,11 @@ class ZakatFitrahForm extends StatelessWidget {
   const ZakatFitrahForm({
     Key? key,
     required GlobalKey<FormState> formKey,
-    required this.controller,
+    required this.onChange
   }) : _formKey = formKey, super(key: key);
 
   final GlobalKey<FormState> _formKey;
-  final ZakatController controller;
+  final void Function(String, String) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ZakatFitrahForm extends StatelessWidget {
         children: [
           TitleTextField(
               title: "Jumlah Jiwa",
-              onChanged: (value) { controller.changeValue(value, "jumlahJiwa"); },
+              onChanged: (value) { onChange(value, "jumlahJiwa"); },
               validator: (value) {
                 if (isInteger(value)) {
                   return null;

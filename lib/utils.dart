@@ -17,3 +17,7 @@ String doubleToCurrency(double value) {
   log(new NumberFormat("#,##0.00", "en_US").format(value));
   return new NumberFormat("#,##0.00", "en_US").format(value);
 }
+
+String formattedDate(DateTime date) {
+  return new DateFormat("dd/MM/yyyy").format(date);
+}

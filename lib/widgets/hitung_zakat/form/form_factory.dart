@@ -10,32 +10,32 @@ import 'package:zakatku/widgets/hitung_zakat/form/zakat_pertanian_form.dart';
 import 'package:zakatku/widgets/hitung_zakat/form/zakat_rikaz_form.dart';
 
 Widget getZakatCalculatorForm(
-    ZakatId zakatId, GlobalKey<FormState> formKey, ZakatController controller) {
+    ZakatId zakatId, GlobalKey<FormState> formKey, void Function(String, String) onChange) {
   Widget result;
   switch (zakatId) {
     case (ZakatId.fitrah):
-      result = ZakatFitrahForm(formKey: formKey, controller: controller);
+      result = ZakatFitrahForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.rikaz):
-      result = ZakatRikazForm(formKey: formKey, controller: controller);
+      result = ZakatRikazForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.penghasilan):
-      result = ZakatPenghasilanForm(formKey: formKey, controller: controller);
+      result = ZakatPenghasilanForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.perdagangan):
-      result = ZakatPerdaganganForm(formKey: formKey, controller: controller);
+      result = ZakatPerdaganganForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.mal):
-      result = ZakatMalForm(formKey: formKey, controller: controller);
+      result = ZakatMalForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.pertanian):
-      result = ZakatPertanianForm(formKey: formKey, controller: controller);
+      result = ZakatPertanianForm(formKey: formKey, onChange: onChange);
       break;
     case (ZakatId.hewanTernak):
-      result = ZakatHewanTernakForm(formKey: formKey, controller: controller);
+      result = ZakatHewanTernakForm(formKey: formKey, onChange: onChange);
       break;
     default:
-      result = ZakatFitrahForm(formKey: formKey, controller: controller);
+      result = ZakatFitrahForm(formKey: formKey, onChange: onChange);
   }
   return result;
 }

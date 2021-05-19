@@ -21,6 +21,19 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TitleMenu(title: "Mengenal Zakat"),
+                  InkWell(
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: kPrimaryColor
+                    ),
+                  )
+                ],
+              ),
               TitleMenu(title: "Hitung Zakat"),
               ZakatList(),
               TitleMenu(title: "Lembaga Zakat"),

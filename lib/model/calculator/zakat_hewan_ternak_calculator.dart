@@ -1,25 +1,22 @@
 import 'package:zakatku/model/calculator/zakat_calculator.dart';
+import 'package:zakatku/model/zakatitem/zakat_hewan_ternak_item.dart';
 
 import '../../utils.dart';
 
 class ZakatHewanTernakCalculator extends ZakatCalculator {
-  ZakatHewanTernakCalculator()
-      : this.total = 0,
-        this.cattleTypeIdx = 0,
-        super("Kg");
-
-  int cattleTypeIdx;
-  int total;
+  ZakatHewanTernakCalculator(ZakatHewanTernakItem item)
+      :
+        super(item);
 
   @override
   String calculate() {
-    switch (cattleTypeIdx) {
+    switch (item.cattleTypeIdx) {
       case (0):
-        return calculateCamel(total);
+        return calculateCamel(item.total);
       case (1):
-        return calculateCow(total);
+        return calculateCow(item.total);
       case (2):
-        return calculateGoat(total);
+        return calculateGoat(item.total);
       default:
         return "-";
     }
@@ -32,10 +29,10 @@ class ZakatHewanTernakCalculator extends ZakatCalculator {
     }
     switch (field) {
       case ("total"):
-        this.total = int.parse(value);
+        this.item.total = int.parse(value);
         break;
       case ("cattleType"):
-        this.cattleTypeIdx = int.parse(value);
+        this.item.cattleTypeIdx = int.parse(value);
         break;
     }
     return this;
@@ -132,15 +129,3 @@ class ZakatHewanTernakCalculator extends ZakatCalculator {
   }
 }
 
-class CattleType {
-  const CattleType({required this.id, required this.description});
-
-  final int id;
-  final String description;
-}
-
-const cattleTypes = [
-  CattleType(id: 0, description: "Unta"),
-  CattleType(id: 1, description: "Sapi, Kerbau"),
-  CattleType(id: 2, description: "Kambing, Domba"),
-];
